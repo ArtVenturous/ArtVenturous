@@ -1,0 +1,652 @@
+/* =========================================
+   1. GLOBAL THEMES & FLUID DESIGN TOKENS
+   ========================================= */
+:root {
+    /* --- COLOR PALETTE (Default Cyber-Neon) --- */
+    --bg-color: #090a0f;
+    --text-main: #E2E8F0;
+    --text-muted: #94A3B8;
+    --accent-color: #00F0FF;
+    --nav-bg: rgba(15, 17, 26, 0.75);
+    --nav-border: rgba(255, 255, 255, 0.1);
+    
+    /* --- FLUID TYPOGRAPHY SCALE --- */
+    --text-xs: clamp(0.7rem, 0.5vw + 0.5rem, 0.8rem);     /* Navigation labels, tags */
+    --text-sm: clamp(0.85rem, 0.8vw + 0.5rem, 0.95rem);   /* Secondary text */
+    --text-base: clamp(1rem, 1vw + 0.75rem, 1.125rem);    /* Main body text */
+    --text-lg: clamp(1.25rem, 1.5vw + 1rem, 1.5rem);      /* App topbar, card headers */
+    --text-xl: clamp(1.75rem, 3vw + 1rem, 2.5rem);        /* Page titles */
+    
+    /* --- FONT WEIGHTS HIERARCHY --- */
+    --weight-light: 300;     
+    --weight-regular: 400;   
+    --weight-medium: 500;    
+    --weight-semibold: 600;  
+    --weight-bold: 700;      
+
+    /* --- STANDARDIZED SPACING SYSTEM --- */
+    --space-2xs: 0.25rem;    /* 4px */
+    --space-xs: 0.5rem;      /* 8px */
+    --space-sm: 0.75rem;     /* 12px */
+    --space-md: 1.25rem;     /* 20px */
+    --space-lg: clamp(1.5rem, 3vw, 2.5rem); 
+    --space-xl: clamp(2rem, 5vw, 4rem);     
+
+    /* --- ANIMATION TOKENS --- */
+    --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-medium: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-slow: 1.0s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Cyber-Neon Theme */
+body.theme-neon {
+    --bg-color: #0B0D17;
+    --text-main: #F8FAFC;
+    --text-muted: #94A3B8;
+    --accent-color: #00F0FF;
+    --nav-bg: rgba(11, 13, 23, 0.85);
+    --nav-border: rgba(0, 240, 255, 0.2);
+}
+
+/* Dusk Theme */
+body.theme-dusk {
+    --bg-color: #1a1525;
+    --text-main: #F3E8FF;
+    --text-muted: #A78BFA;
+    --accent-color: #FFD25F;
+    --nav-bg: rgba(26, 21, 37, 0.85);
+    --nav-border: rgba(255, 210, 95, 0.2);
+}
+
+/* Light Theme */
+body.theme-light {
+    --bg-color: #F8FAFC;
+    --text-main: #0F172A;
+    --text-muted: #64748B;
+    --accent-color: #0284C7;
+    --nav-bg: rgba(255, 255, 255, 0.85);
+    --nav-border: rgba(0, 0, 0, 0.1);
+}
+
+/* =========================================
+   2. APP RESET & BASE
+   ========================================= */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    transition: all var(--transition-medium) ease-in-out;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    font-size: var(--text-base);
+    font-weight: var(--weight-regular);
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    /* Smoothly animate background and text colors when changing themes */
+    transition: background-color var(--transition-medium), color var(--transition-medium);
+    
+    /* Prevents pull-to-refresh on mobile browsers */
+    overscroll-behavior-y: none; 
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+img {
+    max-width: 100%; 
+    height: auto;    
+    display: block;  
+}
+
+/* Accessibility */
+.skip-link {
+    position: absolute;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent-color);
+    color: var(--bg-color);
+    padding: var(--space-xs) var(--space-md);
+    z-index: 9999;
+    border-radius: 0 0 8px 8px;
+    transition: top var(--transition-fast);
+}
+.skip-link:focus { top: 0; }
+
+/* =========================================
+   APP SHELL LAYOUT
+   ========================================= */
+#app-shell {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh; 
+    width: 100vw;
+    overflow: hidden; 
+}
+
+.app-topbar {
+    padding: var(--space-sm) var(--space-lg);
+    font-weight: var(--weight-bold);
+    font-size: var(--text-lg);
+    letter-spacing: 1px;
+    color: var(--accent-color);
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: color var(--transition-medium);
+    
+}
+
+.app-viewport {
+    flex-grow: 1;
+    position: relative;
+    overflow-y: auto; 
+    overflow-x: hidden;
+    scrollbar-width: none; 
+    -ms-overflow-style: none;  /* IE and Edge */
+}
+.app-viewport::-webkit-scrollbar { display: none; }
+.sidebar-header {
+    display: none;
+}
+
+.brand {
+    font-family: 'Rubik Doodle Shadow','Montserrat', sans-serif;
+}
+.view-container {
+    padding: var(--text-lg);
+    width: 100%;
+    max-width: 1200px;
+    min-height: 100dvh;
+    margin: 0 auto;
+    animation: slideIn var(--transition-medium) forwards;
+}
+
+/* =========================================
+   BOTTOM TAB BAR (Navigation)
+   ========================================= */
+.bottom-tab-bar {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: var(--nav-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid var(--nav-border);
+    /* Safe area padding for iPhones combined with fluid spacing */
+    padding: var(--space-sm) var(--space-md) calc(var(--space-sm) + env(safe-area-inset-bottom));
+    z-index: 50;
+    transition: background var(--transition-medium), border-color var(--transition-medium);
+}
+
+.tab-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2xs); /* Fluid 4px */
+    text-decoration: none;
+    color: var(--text-muted);
+    width: 60px;
+    transition: all var(--transition-fast);
+}
+
+/* Native App "Tap" physical feedback */
+.tab-item:active {
+    transform: scale(0.9);
+}
+
+.tab-icon {
+    width: 24px;
+    height: 24px;
+    transition: stroke var(--transition-fast), transform var(--transition-fast);
+}
+
+.tab-label {
+    font-size: var(--text-xs);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: var(--weight-semibold);
+    letter-spacing: 0.5px;
+    transition: color var(--transition-fast);
+}
+
+/* Active State Styles */
+.tab-item.active {
+    color: var(--accent-color);
+}
+.tab-item.active .tab-icon {
+    transform: translateY(-2px);
+    stroke: var(--accent-color);
+    filter: drop-shadow(0 0 8px rgba(var(--accent-color), 0.4));
+}
+
+/* =========================================
+   5. VIEWPORT ANIMATIONS
+   ========================================= */
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================
+   6. DESKTOP HOVER EFFECTS
+   ========================================= */
+@media (hover: hover) {
+    .tab-item:hover:not(.active) {
+        color: var(--text-main); 
+        cursor: pointer;
+    }
+    
+    .tab-item:hover:not(.active) .tab-icon {
+        transform: translateY(-3px) scale(1.05); 
+        stroke: var(--text-main);
+        filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3)); 
+    }
+}
+
+/* =========================================================
+   MOBILE-FIRST PROTECTIONS (Strictly under 768px)
+========================================================= */
+@media (max-width: 767px) {
+    /* Strictly hide the desktop hamburger header on phones */
+    .sidebar-header {
+        display: none !important;
+    }
+    
+    /* Ensure the bottom tab bar stays horizontal */
+    .bottom-tab-bar {
+        width: 100% !important;
+        flex-direction: row !important;
+    }
+    
+    /* Ensure viewport remains full width */
+    .app-viewport {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+
+}
+
+/* =========================================================
+   DESKTOP RESPONSIVE: THE ADAPTIVE SIDE DOCK & TOGGLE
+   Triggers on screens wider than 768px
+========================================================= */
+@media (min-width: 768px) {
+
+    /* Hide the mobile top bar entirely on desktop */
+    .app-topbar {
+        display: none !important;
+    }
+
+    /* Remove the mobile header clearance so the viewport touches the top edge */
+    .app-viewport {
+        padding-top: 0 !important; 
+        margin-top: 0 !important;
+    }
+
+    /* Ensure the sticky subnav hugs the absolute top */
+    #global-subnav {
+        top: 0;
+        padding: var(--space-sm) var(--space-xl); 
+    }
+    /* Enable smooth resizing animations */
+    .bottom-tab-bar, .app-viewport {
+        transition: width var(--transition-medium), margin-left var(--transition-medium);
+    }
+
+    /* Expand the Sidebar & Align Left */
+    .bottom-tab-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 240px; 
+        height: 100dvh;
+        flex-direction: column;
+        justify-content: center; 
+        align-items: flex-start; 
+        border-top: none;
+        border-right: 1px solid var(--nav-border);
+        border-radius: 0; 
+        padding: 0; 
+    }
+
+    /* The Desktop Sidebar Header (Logo + Toggle) */
+    .sidebar-header {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start; 
+        gap: var(--space-md); 
+        width: 100%;
+        padding: var(--space-lg) var(--space-xl); 
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .sidebar-toggle-btn {
+        flex-shrink: 0; 
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        cursor: pointer;
+        padding: 0; 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        transition: color var(--transition-fast);
+    }
+    
+    .sidebar-toggle-btn:hover { color: var(--accent-color); }
+
+    .sidebar-logo {
+        font-weight: var(--weight-bold);
+        font-size: var(--text-lg); 
+        color: var(--accent-color);
+        letter-spacing: 1px;
+        margin: 0;
+        transition: opacity var(--transition-fast);
+    }
+
+    .tab-item {
+        width: 100%;
+        padding: var(--space-md) var(--space-xl); 
+        flex-direction: row; 
+        justify-content: flex-start;
+        gap: var(--space-md); 
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    
+    .tab-label {
+        font-size: var(--text-sm); 
+        transition: opacity var(--transition-fast);
+    }
+
+    .app-viewport {
+        margin-left: 240px; 
+        width: calc(100vw - 240px);
+        padding-top: var(--space-xl); 
+    }
+    
+
+    /* =========================================
+       THE COLLAPSED STATE
+       ========================================= */
+    
+    body.sidebar-collapsed .bottom-tab-bar {
+        width: 80px; 
+    }
+
+    body.sidebar-collapsed .app-viewport {
+        margin-left: 80px;
+        width: calc(100dvw - 80px);
+    }
+
+    /* Center the toggle button and nav icons */
+    body.sidebar-collapsed .sidebar-header,
+    body.sidebar-collapsed .tab-item {
+        padding-left: 0;
+        padding-right: 0;
+        justify-content: center;
+    }
+
+    /* Fully remove text from the layout flow so icons center perfectly */
+    body.sidebar-collapsed .sidebar-logo,
+    body.sidebar-collapsed .tab-label {
+        opacity: 0;
+        width: 0;
+        margin: 0;
+        pointer-events: none;
+    }
+}
+
+ /* =========================================
+       Global Site Footer
+       ========================================= */
+.site-footer {
+    width: 100%;
+    padding: var(--space-md);
+    margin-top: auto; /* Pushes footer down if content is short */
+    border-top: 1px solid var(--nav-border);
+    background: var(--nav-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.footer-content {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    font-family: 'Inter', sans-serif;
+}
+
+.back-to-top-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Inter', sans-serif;
+    font-size: var(--text-sm);
+    transition: color var(--transition-fast);
+    padding: 0.25rem 0.5rem;
+}
+
+.back-to-top-btn:hover {
+    color: var(--accent-color);
+}
+
+/* --- Top Reading Progress Bar --- */
+.scroll-progress-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px; /* Very thin, sleek line */
+    background: transparent;
+    z-index: 9999; /* Sits above your layout but below the mascot */
+    pointer-events: none; /* Clicks pass right through it */
+}
+
+.scroll-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--accent-color);
+    box-shadow: 0 0 8px var(--accent-color); /* Subtle neon glow */
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    transition: width 0.1s ease-out; /* Smooth tracking */
+}
+
+/* Responsive collapse for small mobile screens */
+@media (max-width: 480px) {
+    .footer-content {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    .back-to-top-btn {
+        flex-direction: column;
+        line-height: 0.9;
+    }
+}
+
+/* =========================================================================
+   GLOBAL SUB-NAVIGATION (Sticky Console HUD)
+   ========================================================================= */
+
+#global-subnav {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background: var(--nav-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--nav-border);
+    z-index: 100; /* Stays above page content, below top progress bar */
+    padding: var(--space-sm) var(--space-lg);
+    
+    /* Smooth fade-in when injected by JS */
+    animation: fadeDown var(--transition-medium) ease-out; 
+}
+
+.subnav-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    overflow-x: auto; /* Allows swiping on small screens */
+    scrollbar-width: none; /* Hide native scrollbar */
+}
+
+.subnav-content::-webkit-scrollbar { 
+    display: none; 
+}
+
+/* --- The Links --- */
+.subnav-link {
+    font-family: 'Orbitron', sans-serif;
+    font-size: var(--text-xs);
+    font-weight: var(--weight-medium);
+    letter-spacing: 0.1rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    transition: color var(--transition-fast);
+}
+
+/* --- The Invisible Console Brackets --- */
+.subnav-link::before {
+    content: '[';
+    margin-right: 6px;
+    color: transparent; /* Reserves space so text doesn't jump */
+    transition: color var(--transition-fast), transform var(--transition-fast);
+    transform: translateX(6px); /* Pushed out slightly at rest */
+}
+
+.subnav-link::after {
+    content: ']';
+    margin-left: 6px;
+    color: transparent;
+    transition: color var(--transition-fast), transform var(--transition-fast);
+    transform: translateX(-6px);
+}
+
+/* --- Hover & Active (Scroll Spying) States --- */
+.subnav-link:hover,
+.subnav-link.is-active {
+    color: var(--accent-color);
+}
+
+/* Brackets snap inward and light up */
+.subnav-link:hover::before,
+.subnav-link.is-active::before {
+    color: var(--accent-color);
+    transform: translateX(0);
+}
+
+.subnav-link:hover::after,
+.subnav-link.is-active::after {
+    color: var(--accent-color);
+    transform: translateX(0);
+}
+
+/* --- Dot Separators --- */
+.subnav-separator {
+    color: var(--nav-border);
+    font-size: var(--text-lg);
+    line-height: 0;
+    user-select: none;
+}
+
+/* --- Mobile Adjustments --- */
+@media (max-width: 768px) {
+    #global-subnav {
+        padding: var(--space-sm) var(--space-md);
+    }
+    .subnav-content {
+        justify-content: flex-start; /* Aligns left on mobile so user knows they can swipe */
+        gap: var(--space-sm);
+    }
+}
+
+/* Simple entry animation */
+@keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================================================
+   GLOBAL LOADER (Boot & Transition)
+   ========================================================================= */
+
+.loader-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999; /* Highest possible layer */
+    background: var(--bg-color); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+/* When the loader is finished, this class hides it smoothly */
+.loader-overlay.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.loader-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: var(--text-xs);
+    color: var(--accent-color);
+    letter-spacing: 0.2rem;
+    animation: textFlicker 2s infinite;
+}
+
+@keyframes textFlicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Fade the actual viewport during transitions */
+.app-viewport {
+    transition: opacity 0.3s ease;
+}
+.app-viewport.is-loading {
+    opacity: 0;
+}

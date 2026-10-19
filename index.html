@@ -12,9 +12,121 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700&family=Dancing+Script:wght@500&family=Rubik+Doodle+Shadow&family=Geo:ital@1&display=swap" rel="stylesheet">
     
     <!-- Global Stylesheet -->
-    <link rel="stylesheet" href="css/style.css">
-</head>
+    <link rel="stylesheet" href="portfolio/css/style.css">
+
+    <!-- Component Styles -->
+    <link rel="stylesheet" href="portfolio/css/components.css">
+  </head>
 <body>
-  Hey.
+    <!-- 1. Accessibility Skip Link -->
+    <a href="#app-root" class="skip-link">Skip to content</a>
+
+    <!-- 2. No-JS Fallback -->
+    <noscript>
+        <div style="text-align: center; padding: 4rem 2rem; font-family: sans-serif;">
+            <h2>JavaScript Required</h2>
+            <p>This portfolio is an interactive web application. Please enable JavaScript to view.</p>
+        </div>
+    </noscript>
+
+    <!-- Global Loading Screen -->
+    <div id="global-loader" class="loader-overlay">
+        <div class="loader-content">
+            <div class="loader-text" id="loader-text">SYSTEM INIT...</div>
+        </div>
+    </div>
+
+     <!-- The App Shell -->
+    <div id="app-shell">
+        
+        <!-- Top Bar -->
+        <header class="app-topbar">
+            <div class="brand">A R T O</div>
+        </header>
+
+        <!-- Top Scroll Progress Bar -->
+        <div class="scroll-progress-container">
+            <div id="scroll-progress-bar" class="scroll-progress-bar"></div>
+        </div>
+
+        <!-- Dynamic Viewport -->
+        <main class="app-viewport">
+            
+            <!-- Global Sub Nav Bar-->
+            <nav id="global-subnav" class="page-subnav" style="display: none;">
+                <div class="subnav-content" id="global-subnav-content"></div>
+            </nav>
+
+            <div id="app-root" class="view-container">
+                <!-- JavaScript will mount Pages here -->
+            </div>
+
+            <!-- Global Persistent Footer -->
+            <footer class="site-footer">
+                <div class="footer-content">
+                    <button type="button" id="back-to-top" class="back-to-top-btn" title="Back to Top">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="18 15 12 9 6 15"></polyline>
+                        </svg>
+                        <span>Back to Top</span>
+                    </button>
+                    <p>&copy; 2026 ARTO. All Rights Reserved.</p>
+                </div>
+            </footer>
+        </main>
+
+        <!-- Persistent Bottom Tab Bar (Native App Navigation) -->
+        <nav class="bottom-tab-bar" id="main-nav">
+            <!-- Desktop Sidebar Header (Toggle + Logo) -->
+            <div class="sidebar-header">
+                <button id="sidebar-toggle" class="sidebar-toggle-btn" aria-label="Toggle Sidebar">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+                <div class="sidebar-logo brand">ARTO</div>
+            </div>
+
+            <a href="#home" class="tab-item active" aria-label="Home">
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                <span class="tab-label">Home</span>
+            </a>
+            
+            <a href="#projects" class="tab-item" aria-label="Projects">
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+                <span class="tab-label">Projects</span>
+            </a>
+            
+            <a href="#about" class="tab-item" aria-label="About">
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span class="tab-label">About</span>
+            </a>
+
+        </nav>
+
+    </div>
+
+    <!-- Component Scripts -->
+    <script src="portfolio/js/component/home.js" defer></script>
+    <script src="portfolio/js/component/projects.js" defer></script>
+    <script src="portfolio/js/component/about.js" defer></script>
+    <script src="portfolio/js/component/contact.js" defer></script>
+
+    <!-- Core Engine -->
+    <script src="portfolio/js/core/site.js" defer></script>
+
 </body>
 </html>
