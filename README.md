@@ -1,5 +1,10 @@
-## Hi there 👋
-
+# Greetings!
+> [!TIP]
+> This was left blank or incomplete on purpose.
+## 👋 What goes on?
+> [!NOTE]
+> I am just another human being trying to figure things out.
+### More Coming Soon!
 <!--
 **ArtVenturous/ArtVenturous** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
