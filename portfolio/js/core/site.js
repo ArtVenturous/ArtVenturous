@@ -117,6 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
         currentRoute = hash;
         if (viewport) viewport.scrollTo({ top: 0, behavior: 'instant' });
         
+        window.dispatchEvent(new Event('themeChanged'));
         buildGlobalSubnav();
     }
 

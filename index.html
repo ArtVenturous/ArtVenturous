@@ -38,7 +38,10 @@
 
      <!-- The App Shell -->
     <div id="app-shell">
-        
+        <!-- Animated Background -->
+        <canvas id="bg-canvas" style="position: fixed; inset: 0; pointer-events: none; z-index: -1;"></canvas>
+
+
         <!-- Top Bar -->
         <header class="app-topbar">
             <div class="brand">A R T O</div>
@@ -152,6 +155,7 @@
     <script src="portfolio/js/component/contact.js" defer></script>
 
     <!-- Core Engine -->
+    <script src="portfolio/js/core/bg.js" defer></script>
     <script src="portfolio/js/core/site.js" defer></script>
 
 </body>
